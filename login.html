@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Sign in or create your ReAttempt student account.">
+  <title>Login or Register — ReAttempt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css">
+  <script src="js/api.js" defer></script>
+  <script src="js/auth-api.js" defer></script>
+</head>
+<body>
+  <header class="auth-header">
+    <a class="auth-brand" href="index.html" aria-label="ReAttempt home">
+      <img src="assets/reattempt-logo.png" alt="ReAttempt Official Logo">
+      <span>ReAttempt<span class="brand-period">.</span></span>
+    </a>
+    <a class="auth-home-link" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+  </header>
+
+  <main class="auth-layout">
+    <section class="auth-promo" aria-labelledby="promo-title">
+      <div class="promo-orbit orbit-a"></div>
+      <div class="promo-orbit orbit-b"></div>
+      <div class="promo-copy">
+        <span class="promo-kicker"><span></span> YOUR NEXT CHAPTER STARTS HERE</span>
+        <h1 id="promo-title">One plan can change <span>what comes next.</span></h1>
+        <p>Bring your backlogs, study routine, and progress into one encouraging place.</p>
+        <div class="promo-points">
+          <div><span class="point-icon">✓</span><span>Make a plan that fits your life</span></div>
+          <div><span class="point-icon">✓</span><span>Keep track of every small win</span></div>
+          <div><span class="point-icon">✓</span><span>Build momentum at your own pace</span></div>
+        </div>
+        <div class="promo-mantra"><span>“</span><span>One Plan. One Comeback.</span></div>
+      </div>
+      <span class="promo-decoration decoration-one" aria-hidden="true">✦</span>
+      <span class="promo-decoration decoration-two" aria-hidden="true">✳</span>
+    </section>
+
+    <section class="auth-panel" aria-label="Account access">
+      <div class="auth-card">
+        <div class="auth-heading">
+          <span class="eyebrow">WELCOME TO REATTEMPT</span>
+          <h2 id="auth-title">Your comeback starts here.</h2>
+          <p>Sign in to pick up where you left off.</p>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Account access">
+          <button class="auth-tab is-selected" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel" data-auth-tab="login">Login</button>
+          <button class="auth-tab" id="register-tab" type="button" role="tab" aria-selected="false" aria-controls="register-panel" data-auth-tab="register">Create account</button>
+        </div>
+
+        <form class="auth-form" id="login-panel" role="tabpanel" aria-labelledby="login-tab">
+          <label class="form-field">Email address
+            <input name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
+          </label>
+          <label class="form-field">Password
+            <span class="password-control">
+              <input name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required>
+              <button class="password-toggle" type="button" data-password-toggle aria-label="Show password">Show</button>
+            </span>
+          </label>
+          <div class="form-options">
+            <label class="check-label"><input name="remember" type="checkbox"> <span>Remember me</span></label>
+            <button class="inline-link" type="button" data-show-forgot>Forgot password?</button>
+          </div>
+          <button class="auth-submit" type="submit">Login <span aria-hidden="true">→</span></button>
+          <p class="form-switch-copy">New to ReAttempt? <button class="inline-link" type="button" data-show-register>Create an account</button></p>
+        </form>
+
+        <form class="auth-form" id="register-panel" role="tabpanel" aria-labelledby="register-tab" hidden>
+          <div class="form-grid">
+            <label class="form-field form-field-wide">Full name
+              <input name="fullName" type="text" autocomplete="name" placeholder="Your full name" required minlength="2">
+            </label>
+            <label class="form-field form-field-wide">Email address
+              <input name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
+            </label>
+            <label class="form-field">Password
+              <span class="password-control">
+                <input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+                <button class="password-toggle" type="button" data-password-toggle aria-label="Show password">Show</button>
+              </span>
+            </label>
+            <label class="form-field">Confirm password
+              <input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter password" required>
+            </label>
+            <label class="form-field form-field-wide">College name
+              <input name="college" type="text" autocomplete="organization" placeholder="Your college or university" required>
+            </label>
+            <label class="form-field">Course
+              <input name="course" type="text" value="B.Tech" required>
+            </label>
+            <label class="form-field">Branch / Department
+              <select name="department" required>
+                <option value="" selected disabled>Select branch</option>
+                <option>Computer Science</option>
+                <option>Information Technology</option>
+                <option>Electronics and Communication</option>
+                <option>Electrical Engineering</option>
+                <option>Mechanical Engineering</option>
+                <option>Civil Engineering</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label class="form-field">Current year
+              <select name="year" required>
+                <option value="" selected disabled>Select year</option>
+                <option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option>
+              </select>
+            </label>
+            <label class="form-field form-field-wide">Current semester
+              <select name="semester" required>
+                <option value="" selected disabled>Select semester</option>
+                <option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option>
+                <option>Semester 5</option><option>Semester 6</option><option>Semester 7</option><option>Semester 8</option>
+              </select>
+            </label>
+          </div>
+          <button class="auth-submit" type="submit">Create my account <span aria-hidden="true">→</span></button>
+          <p class="form-switch-copy">Already have an account? <button class="inline-link" type="button" data-show-login>Login</button></p>
+        </form>
+
+        <form class="auth-form forgot-form" id="forgot-panel" hidden>
+          <div class="forgot-icon" aria-hidden="true">✉</div>
+          <h3>Forgot your password?</h3>
+          <p class="forgot-description">Enter your registered email. This demo will show a confirmation but will not send an email.</p>
+          <label class="form-field">Registered email address
+            <input name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
+          </label>
+          <button class="auth-submit" type="submit">Reset password <span aria-hidden="true">→</span></button>
+          <button class="back-login" type="button" data-show-login><span aria-hidden="true">←</span> Back to login</button>
+        </form>
+        <p class="auth-notice" role="status" aria-live="polite"></p>
+        <p class="demo-note"><span aria-hidden="true">ⓘ</span> Student project authentication. Passwords are hashed on the server; password recovery is not enabled.</p>
+      </div>
+      <footer class="auth-footer">© <span data-current-year></span> ReAttempt · One Plan. One Comeback.</footer>
+    </section>
+  </main>
+</body>
+</html>

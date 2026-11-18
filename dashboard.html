@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f8f8">
+  <meta name="description" content="Your ReAttempt academic recovery dashboard.">
+  <title>Student Dashboard — ReAttempt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="js/api.js" defer></script>
+  <script src="js/dashboard-api.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-loading" id="dashboard-loading" role="status" aria-live="polite">Loading your saved workspace…</div>
+  <div class="app-shell">
+    <aside class="app-sidebar" id="app-sidebar" aria-label="Dashboard sidebar">
+      <a class="dashboard-brand" href="index.html" aria-label="ReAttempt home">
+        <img src="assets/reattempt-logo.png" alt="ReAttempt Official Logo">
+        <span>ReAttempt<span class="brand-period">.</span></span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="sidebar-nav" aria-label="Student dashboard">
+        <button class="sidebar-link is-active" type="button" data-view-target="overview" data-title="Dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+        <button class="sidebar-link" type="button" data-view-target="backlogs" data-title="My Backlogs"><span class="nav-icon">▤</span><span>My Backlogs</span></button>
+        <button class="sidebar-link" type="button" data-view-target="planner" data-title="Study Planner"><span class="nav-icon">▦</span><span>Study Planner</span></button>
+        <button class="sidebar-link" type="button" data-view-target="materials" data-title="Study Materials"><span class="nav-icon">▱</span><span>Study Materials</span></button>
+        <button class="sidebar-link" type="button" data-view-target="progress" data-title="Progress Tracker"><span class="nav-icon">↗</span><span>Progress Tracker</span></button>
+      </nav>
+      <div class="sidebar-label sidebar-label-account">ACCOUNT</div>
+      <nav class="sidebar-nav" aria-label="Account options">
+        <button class="sidebar-link" type="button" data-view-target="profile" data-title="My Profile"><span class="nav-icon">◉</span><span>My Profile</span></button>
+        <button class="sidebar-link" type="button" data-view-target="settings" data-title="Settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-encouragement"><span>✦</span><strong>Keep showing up.</strong><small>Small steps move you forward.</small></div>
+        <button class="sidebar-link sidebar-logout" type="button" data-logout><span class="nav-icon">↪</span><span>Logout</span></button>
+        <span class="sidebar-version">ReAttempt · Student workspace</span>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <main class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-leading">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Open dashboard menu" aria-expanded="false">☰</button>
+          <img class="topbar-logo" src="assets/reattempt-logo.png" alt="ReAttempt Official Logo">
+          <div class="topbar-title"><span>REATTEMPT / WORKSPACE</span><strong id="active-view-title">Dashboard</strong></div>
+        </div>
+        <div class="topbar-actions">
+          <span class="topbar-date" id="topbar-date"></span>
+          <button class="topbar-avatar" type="button" data-view-target="profile" aria-label="Open your profile"><img src="assets/images/student-profile.jpg" alt="" data-profile-photo><span data-student-initials>ST</span></button>
+        </div>
+      </header>
+
+      <div class="view-container">
+        <section class="view-panel is-visible" id="view-overview" data-view="overview" aria-labelledby="overview-title">
+          <div class="page-heading heading-with-action">
+            <div><span class="section-kicker">YOUR COMEBACK, AT A GLANCE</span><h1 id="overview-title">Good to see you, <span data-student-first-name>Student</span> <span class="wave">✦</span></h1><p>Every focused session is a step closer to your goal.</p></div>
+            <button class="button button-primary" type="button" data-open-view="planner"><span aria-hidden="true">＋</span> Plan a study session</button>
+          </div>
+
+          <div class="welcome-banner">
+            <div><span class="banner-kicker">YOUR PLAN. YOUR PACE.</span><h2>Progress is built one day at a time.</h2><p>Keep your next small win in sight and let your effort add up.</p><button class="banner-link" type="button" data-open-view="backlogs">Review your subjects <span aria-hidden="true">→</span></button></div>
+            <div class="banner-progress"><span class="banner-progress-icon">↗</span><strong data-overall-percent>48%</strong><span>overall preparation</span><div class="banner-progress-track"><i data-overall-bar></i></div></div>
+            <span class="banner-sparkle sparkle-a" aria-hidden="true">✦</span><span class="banner-sparkle sparkle-b" aria-hidden="true">✳</span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon stat-icon-red">▤</span><span class="stat-label">Backlog subjects</span><strong data-stat="subjects">0</strong><small><span class="stat-dot dot-red"></span>Across your semesters</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-green">✓</span><span class="stat-label">Completed subjects</span><strong data-stat="completed">0</strong><small><span class="stat-dot dot-green"></span>One important win</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-blue">◷</span><span class="stat-label">Still in progress</span><strong data-stat="remaining">0</strong><small><span class="stat-dot dot-blue"></span>One session at a time</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-yellow">⌚</span><span class="stat-label">Total study hours</span><strong><span data-stat="hours">0</span><small class="stat-unit">hrs</small></strong><small><span class="stat-dot dot-yellow"></span>Completed sessions</small></article>
+          </div>
+
+          <div class="overview-grid">
+            <article class="panel-card weekly-card">
+              <div class="panel-heading"><div><h2>This week</h2><p>Your study rhythm, day by day.</p></div><button class="subtle-link" type="button" data-open-view="progress">View progress <span aria-hidden="true">→</span></button></div>
+              <div class="weekly-chart" id="overview-week-chart" aria-label="Study hours this week"></div>
+              <div class="chart-summary"><span><i class="legend-dot"></i> Completed study hours</span><strong>0 hrs this week</strong></div>
+            </article>
+            <article class="panel-card today-card">
+              <div class="panel-heading"><div><h2>Coming up</h2><p>Your next planned sessions.</p></div><button class="icon-link" type="button" data-open-view="planner" aria-label="Open study planner">↗</button></div>
+              <div class="upcoming-list" id="overview-upcoming-list"></div>
+            </article>
+            <article class="panel-card activity-card">
+              <div class="panel-heading"><div><h2>Recent activity</h2><p>A few steps you’ve already taken.</p></div></div>
+              <div class="activity-list" id="recent-activity-list"></div>
+            </article>
+            <article class="panel-card comeback-card">
+              <span class="comeback-icon">✦</span><span class="section-kicker">A REMINDER FOR TODAY</span><h2>Showing up counts.</h2><p>You don’t need a perfect study day. Just one focused start.</p><button class="subtle-link" type="button" data-open-view="planner">Make today’s plan <span aria-hidden="true">→</span></button>
+            </article>
+          </div>
+        </section>
+
+        <section class="view-panel" id="view-backlogs" data-view="backlogs" aria-labelledby="backlogs-title" hidden>
+          <div class="page-heading heading-with-action"><div><span class="section-kicker">KNOW WHAT’S PENDING</span><h1 id="backlogs-title">My Backlogs</h1><p>Keep your subjects and preparation progress in one clear view.</p></div><button class="button button-primary" id="add-subject-button" type="button"><span aria-hidden="true">＋</span> Add subject</button></div>
+          <div class="backlog-summary panel-card"><div><span class="summary-label">SUBJECTS TO WORK ON</span><strong><span data-stat="subjects">0</span><small>total subjects</small></strong></div><div class="summary-progress"><div class="summary-progress-heading"><span>Overall preparation</span><strong data-overall-percent>0%</strong></div><div class="progress-track"><i data-overall-bar></i></div><small>A steady plan makes a big goal feel smaller.</small></div></div>
+          <article class="panel-card table-panel"><div class="panel-heading"><div><h2>Your subjects</h2><p>Update your progress whenever you complete a study session.</p></div><div class="table-filters"><label class="table-search"><span aria-hidden="true">⌕</span><input id="backlog-search" type="search" placeholder="Find a subject" aria-label="Search backlog subjects"></label><label class="select-filter"><span class="visually-hidden">Filter by semester</span><select id="backlog-semester-filter"><option value="all">All semesters</option><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option><option>Semester 7</option><option>Semester 8</option></select></label><label class="select-filter"><span class="visually-hidden">Filter by status</span><select id="backlog-status-filter"><option value="all">All statuses</option><option>Not started</option><option>In progress</option><option>Completed</option></select></label></div></div>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>SUBJECT</th><th>SEMESTER</th><th>ATTEMPTS</th><th>STATUS</th><th>PROGRESS</th><th>EXAM DATE</th><th><span class="visually-hidden">Actions</span></th></tr></thead><tbody id="backlog-rows"></tbody></table></div>
+          </article>
+          <p class="demo-caption">Sample subjects are labeled. Your changes are saved to your account.</p>
+        </section>
+
+        <section class="view-panel" id="view-planner" data-view="planner" aria-labelledby="planner-title" hidden>
+          <div class="page-heading heading-with-action"><div><span class="section-kicker">BUILD YOUR STUDY ROUTINE</span><h1 id="planner-title">Study Planner</h1><p>Make space for focused study sessions, one block at a time.</p></div><button class="button button-primary" id="add-task-button" type="button"><span aria-hidden="true">＋</span> Add study task</button></div>
+          <div class="planner-banner panel-card"><div class="planner-date-icon"><span>▦</span></div><div><span class="summary-label">TODAY’S FOCUS</span><strong id="planner-today-label">Your study plan</strong><p id="planner-today-summary">A few focused sessions are ready when you are.</p></div><button class="subtle-link" type="button" id="focus-today-button">Focus on today <span aria-hidden="true">→</span></button></div>
+          <article class="panel-card timetable-panel"><div class="panel-heading"><div><h2>Your week</h2><p>Study sessions planned across the week.</p></div><span class="week-range" id="week-range"></span></div><div class="timetable-grid" id="weekly-timetable"></div></article>
+          <article class="panel-card table-panel schedule-panel"><div class="panel-heading"><div><h2>All study tasks</h2><p>Dates, focus areas, and session status.</p></div><div class="table-filters"><label class="form-field filter-date">Filter by date<input id="task-date-filter" type="date"></label><label class="select-filter"><span class="visually-hidden">Filter tasks by subject</span><select id="task-subject-filter"><option value="all">All subjects</option></select></label><label class="select-filter"><span class="visually-hidden">Filter tasks by status</span><select id="task-status-filter"><option value="all">All tasks</option><option value="Planned">Planned</option><option value="In progress">In progress</option><option value="Completed">Completed</option></select></label></div></div><div class="table-scroll"><table class="data-table"><thead><tr><th>FOCUS SESSION</th><th>DATE</th><th>TIME</th><th>DURATION</th><th>STATUS</th><th><span class="visually-hidden">Actions</span></th></tr></thead><tbody id="task-rows"></tbody></table></div></article>
+        </section>
+
+        <section class="view-panel" id="view-materials" data-view="materials" aria-labelledby="materials-title" hidden>
+          <div class="page-heading heading-with-action"><div><span class="section-kicker">A LITTLE HELP FOR YOUR NEXT SESSION</span><h1 id="materials-title">Study Materials</h1><p>Browse samples or add your own trusted resource links.</p></div><button class="button button-primary" id="add-material-button" type="button"><span aria-hidden="true">＋</span> Add resource</button></div>
+          <div class="materials-toolbar panel-card"><label class="material-search"><span aria-hidden="true">⌕</span><input id="material-search" type="search" placeholder="Search materials or subjects..." aria-label="Search study materials"></label><label class="select-filter"><span class="visually-hidden">Filter by subject</span><select id="material-filter"><option value="all">All subjects</option></select></label></div>
+          <div class="material-type-filters" aria-label="Filter by material type"><button class="type-filter is-selected" type="button" data-material-type="all">All resources</button><button class="type-filter" type="button" data-material-type="Notes">Notes</button><button class="type-filter" type="button" data-material-type="Question paper">Question papers</button><button class="type-filter" type="button" data-material-type="Important topics">Important topics</button><button class="type-filter" type="button" data-material-type="Reference">References</button></div>
+          <div class="materials-grid" id="materials-grid"></div>
+          <p class="demo-caption">Sample cards are not downloadable. User-added links open in a new tab; only add resources you trust.</p>
+        </section>
+
+        <section class="view-panel" id="view-progress" data-view="progress" aria-labelledby="progress-title" hidden>
+          <div class="page-heading"><span class="section-kicker">NOTICE HOW FAR YOU’VE COME</span><h1 id="progress-title">Progress Tracker</h1><p>Use your recent activity to choose one clear next step.</p></div>
+          <div class="progress-overview-grid">
+            <article class="progress-hero panel-card"><span class="section-kicker">OVERALL PREPARATION</span><div class="progress-ring" id="progress-ring"><div><strong data-overall-percent>0%</strong><small>prepared</small></div></div><p>You’re building consistency. Keep going at a pace that works for you.</p></article>
+            <article class="panel-card progress-hours-card"><div class="panel-heading"><div><h2>Study time</h2><p>Completed study hours this week.</p></div><span class="hours-icon">◷</span></div><strong class="big-stat"><span data-stat="weekly-hours">0</span><small>hrs</small></strong><div class="weekly-chart progress-week-chart" id="progress-week-chart" aria-label="Weekly completed study hours"></div><div class="chart-summary"><span><i class="legend-dot"></i> Hours studied</span><span>This week</span></div></article>
+          </div>
+          <div class="stats-grid progress-stats-grid"><article class="stat-card"><span class="stat-icon stat-icon-red">▤</span><span class="stat-label">Total backlog subjects</span><strong data-stat="subjects">0</strong><small>Saved to your account</small></article><article class="stat-card"><span class="stat-icon stat-icon-green">✓</span><span class="stat-label">Completed subjects</span><strong data-stat="completed">0</strong><small>Marked complete</small></article><article class="stat-card"><span class="stat-icon stat-icon-blue">◷</span><span class="stat-label">Completed study tasks</span><strong data-stat="completed-tasks">0</strong><small>Study sessions finished</small></article><article class="stat-card"><span class="stat-icon stat-icon-yellow">⌚</span><span class="stat-label">Total study hours</span><strong><span data-stat="hours">0</span><small class="stat-unit">hrs</small></strong><small>From completed sessions</small></article></div>
+          <article class="panel-card subject-progress-panel"><div class="panel-heading"><div><h2>Subject-wise progress</h2><p>Small gains across subjects move the whole plan forward.</p></div></div><div id="subject-progress-list" class="subject-progress-list"></div></article>
+          <div class="topics-grid"><article class="panel-card topic-panel"><div class="panel-heading"><div><h2>Completed topics</h2><p>Things you’ve already made time for.</p></div><span class="topic-count completed-count" id="completed-topic-count">0</span></div><ul id="completed-topics" class="topic-list"></ul></article><article class="panel-card topic-panel"><div class="panel-heading"><div><h2>Up next</h2><p>Choose a topic for your next study block.</p></div><span class="topic-count pending-count" id="pending-topic-count">0</span></div><ul id="pending-topics" class="topic-list"></ul></article></div>
+        </section>
+
+        <section class="view-panel" id="view-profile" data-view="profile" aria-labelledby="profile-title" hidden>
+          <div class="page-heading heading-with-action"><div><span class="section-kicker">YOUR STUDENT DETAILS</span><h1 id="profile-title">My Profile</h1><p>Keep your study space personal and up to date.</p></div><button class="button button-secondary" id="edit-profile-button" type="button">Edit profile</button></div>
+          <article class="profile-card panel-card"><div class="profile-cover"><img src="assets/images/study-laptop.jpg" alt="A laptop and study materials"></div><div class="profile-content"><div class="profile-avatar-large"><img src="assets/images/student-profile.jpg" alt="Student profile"></div><div class="profile-name-row"><div><h2 id="profile-name">Student Name</h2><span class="profile-tag">ReAttempt demo student</span></div><span class="profile-status"><i></i> On your way</span></div><div class="profile-details-grid"><div><span>EMAIL ADDRESS</span><strong id="profile-email">student@example.edu</strong></div><div><span>COLLEGE</span><strong id="profile-college">Your College</strong></div><div><span>COURSE</span><strong id="profile-course">B.Tech</strong></div><div><span>DEPARTMENT</span><strong id="profile-department">Computer Science</strong></div><div><span>YEAR OF STUDY</span><strong id="profile-year">3rd year</strong></div><div><span>CURRENT SEMESTER</span><strong id="profile-semester">Semester 5</strong></div></div></div></article>
+          <article class="panel-card profile-note"><span class="profile-note-icon">✦</span><div><h2>Your journey belongs to you.</h2><p>This is your space to organize your next steps. Update the details that help your plan feel like yours.</p></div></article>
+        </section>
+
+        <section class="view-panel" id="view-settings" data-view="settings" aria-labelledby="settings-title" hidden>
+          <div class="page-heading"><span class="section-kicker">MAKE YOUR SPACE WORK FOR YOU</span><h1 id="settings-title">Settings</h1><p>Manage your account preferences and saved study data.</p></div>
+          <div class="settings-grid">
+            <article class="panel-card settings-card"><div class="panel-heading"><div><h2>Account settings</h2><p>Your ReAttempt account details.</p></div><span class="settings-icon">◉</span></div><div class="account-row"><div class="account-avatar" data-student-initials>ST</div><div><strong id="settings-account-name">Student Name</strong><span id="settings-account-email">student@example.edu</span></div></div><button class="button button-secondary" type="button" data-open-view="profile">View profile</button></article>
+            <article class="panel-card settings-card"><div class="panel-heading"><div><h2>Change password</h2><p>Confirm your current password before choosing a new one.</p></div><span class="settings-icon">⌑</span></div><form id="change-password-form" class="settings-form"><label class="form-field">Current password<input name="currentPassword" type="password" autocomplete="current-password" required></label><label class="form-field">New password<input name="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required></label><label class="form-field">Confirm new password<input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Enter it again" required></label><button class="button button-primary" type="submit">Update password</button></form></article>
+            <article class="panel-card settings-card notification-settings"><div class="panel-heading"><div><h2>Notifications</h2><p>Choose which reminders to see in this demo.</p></div><span class="settings-icon">♧</span></div><label class="toggle-row"><span><strong>Study reminders</strong><small>Demo preference only; no notifications are sent.</small></span><input type="checkbox" name="studyReminders"><i></i></label><label class="toggle-row"><span><strong>Weekly progress recap</strong><small>Demo preference only; no messages are sent.</small></span><input type="checkbox" name="weeklyRecap"><i></i></label></article>
+            <article class="panel-card settings-card theme-settings"><div class="panel-heading"><div><h2>Appearance</h2><p>Your theme preference is saved with your account.</p></div><span class="settings-icon">◐</span></div><label class="toggle-row"><span><strong>Dark theme</strong><small>Switch the student workspace appearance.</small></span><input type="checkbox" name="darkTheme"><i></i></label></article>
+            <article class="panel-card settings-card clear-data-card"><div class="panel-heading"><div><h2>Clear saved study data</h2><p>Remove your subjects, tasks, and custom resources. Your account remains active.</p></div><span class="settings-icon">⌫</span></div><button class="button button-danger" id="clear-demo-data-button" type="button">Clear saved study data</button></article>
+            <article class="panel-card logout-card"><div><span class="logout-icon">↪</span><h2>Ready to take a break?</h2><p>You can sign out of your ReAttempt account at any time.</p></div><button class="button button-danger" type="button" data-logout>Logout</button></article>
+          </div>
+        </section>
+
+        <footer class="app-footer"><span>One Plan. One Comeback.</span><span>© <span data-current-year></span> ReAttempt</span></footer>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="app-dialog" id="subject-dialog" aria-labelledby="subject-dialog-title">
+    <form id="subject-form">
+      <div class="dialog-heading"><div><span class="section-kicker">YOUR BACKLOGS</span><h2 id="subject-dialog-title">Add a subject</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <input type="hidden" name="id">
+      <div class="dialog-form-grid">
+        <label class="form-field dialog-wide">Subject name<input name="name" required placeholder="e.g. Mathematics II"></label>
+        <label class="form-field">Subject code<input name="code" required placeholder="e.g. MATH202"></label>
+        <label class="form-field">Semester<select name="semester" required><option value="" selected disabled>Choose semester</option><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option><option>Semester 7</option><option>Semester 8</option></select></label>
+        <label class="form-field">Number of attempts<input name="attempts" type="number" min="1" max="20" value="1" required></label>
+        <label class="form-field">Preparation status<select name="status" required><option>Not started</option><option>In progress</option><option>Completed</option></select></label>
+        <label class="form-field dialog-wide">Progress <span class="range-control"><input name="progress" type="range" min="0" max="100" value="0"><output>0%</output></span></label>
+        <label class="form-field dialog-wide">Exam date (optional)<input name="examDate" type="date"></label>
+      </div>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" data-close-dialog>Cancel</button><button class="button button-primary" type="submit">Save subject</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog" id="material-dialog" aria-labelledby="material-dialog-title">
+    <form id="material-form">
+      <div class="dialog-heading"><div><span class="section-kicker">YOUR STUDY RESOURCES</span><h2 id="material-dialog-title">Add a resource</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <input type="hidden" name="id">
+      <div class="dialog-form-grid">
+        <label class="form-field dialog-wide">Resource title<input name="title" required maxlength="100" placeholder="e.g. Signals and Systems lecture notes"></label>
+        <label class="form-field dialog-wide">Subject<select name="subjectId" id="material-subject-select" required></select></label>
+        <label class="form-field">Resource type<select name="type" required><option>Notes</option><option>Question paper</option><option>Important topics</option><option>Reference</option></select></label>
+        <label class="form-field">Resource URL<input name="url" type="url" inputmode="url" placeholder="https://example.edu/resource" required></label>
+        <label class="form-field dialog-wide">Description (optional)<input name="description" maxlength="180" placeholder="What will this resource help with?"></label>
+      </div>
+      <p class="dialog-error" id="material-url-error" role="alert"></p>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" data-close-dialog>Cancel</button><button class="button button-primary" type="submit">Save resource</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog" id="task-dialog" aria-labelledby="task-dialog-title">
+    <form id="task-form">
+      <div class="dialog-heading"><div><span class="section-kicker">MAKE TIME FOR IT</span><h2 id="task-dialog-title">Add a study task</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <input type="hidden" name="id">
+      <div class="dialog-form-grid">
+        <label class="form-field dialog-wide">Study focus<input name="title" required placeholder="e.g. Review process scheduling"></label>
+        <label class="form-field dialog-wide">Subject<select name="subject" required id="task-subject-select"></select></label>
+        <label class="form-field">Study date<input name="date" type="date" required></label>
+        <label class="form-field">Task status<select name="status"><option>Planned</option><option>In progress</option><option>Completed</option></select></label>
+        <label class="form-field">Start time<input name="start" type="time" required></label>
+        <label class="form-field">End time<input name="end" type="time" required></label>
+      </div>
+      <p class="dialog-error" id="task-time-error" role="alert"></p>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" data-close-dialog>Cancel</button><button class="button button-primary" type="submit">Save study task</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog" id="profile-dialog" aria-labelledby="profile-dialog-title">
+    <form id="profile-form">
+      <div class="dialog-heading"><div><span class="section-kicker">YOUR STUDENT DETAILS</span><h2 id="profile-dialog-title">Edit profile</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <div class="dialog-form-grid">
+        <label class="form-field dialog-wide">Full name<input name="fullName" required minlength="2"></label>
+        <label class="form-field dialog-wide">Email address<input name="email" type="email" required></label>
+        <label class="form-field dialog-wide">College name<input name="college" required></label>
+        <label class="form-field">Course<input name="course" required></label>
+        <label class="form-field">Department<input name="department" required></label>
+        <label class="form-field">Year of study<select name="year" required><option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option></select></label>
+        <label class="form-field">Current semester<select name="semester" required><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option><option>Semester 7</option><option>Semester 8</option></select></label>
+      </div>
+      <div class="dialog-actions"><button class="button button-secondary" type="button" data-close-dialog>Cancel</button><button class="button button-primary" type="submit">Save profile</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast-message" id="dashboard-toast" role="status" aria-live="polite"></div>
+</body>
+</html>
